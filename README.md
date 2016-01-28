@@ -17,6 +17,7 @@ How to install
 		* Needed for video support
 		* brew install mpv
 		* Tested with v0.14.0+
+
 ### Run
 > `node --harmony_default_parameters index.js`
 
