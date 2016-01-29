@@ -13,7 +13,11 @@ How to install
 		* Tested with v5.5.0+
 	* Clone the repository
 	* npm install
-	* Install mpv
+    * Install livestreamer
+        * Needed for video support
+        * Easy_install -U livestreamer for Mac OS X
+            * Check documentation of livestreamer for other OS
+	* Install mpv (as a fallback instead of livestreamer)
 		* Needed for video support
 		* brew install mpv
 		* Tested with v0.14.0+

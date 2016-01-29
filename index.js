@@ -110,10 +110,20 @@ function showMainMenu() {
 
 function openStreams(streams) {
     cb = function(stream) {
-        const mpv = spawn('mpv', ['--fs', 'http://www.twitch.tv/' + stream]);
-        mpv.on('close', (code) => {
-            handleInput("Open stream number?", streams, cb);
+        const closer = handleInput("Open stream number?", streams, cb);
+        const stream_url = 'http://www.twitch.tv/' + stream;
+
+        const livestreamer = spawn('livestreamer', [stream_url, 'best']);
+        livestreamer.on('close', (code) => {
+            closer();
         });
+        livestreamer.on('error', (code) => {
+            const mpv = spawn('mpv', ['--fs', 'http://www.twitch.tv/' + stream]);
+            mpv.on('close', (code) => {
+                closer();
+            });
+        });
+
     };
     handleInput("Open stream number?", streams, cb);
 }
