@@ -87,7 +87,7 @@ function getStreamsForGame(gamename) {
         }
         var col = [colors.red, colors.lightgrey, colors.blue, colors.yellow];
         formatter.table(streamers, {"colors":col, "delimeter_color":colors.red});
-        openStreams(streamers);
+        openStreams(gamename, streamers);
     });
 }
 
@@ -108,19 +108,18 @@ function showMainMenu() {
     });
 }
 
-function openStreams(streams) {
+function openStreams(gamename, streams) {
     cb = function(stream) {
-        const closer = handleInput("Open stream number?", streams, cb);
         const stream_url = 'http://www.twitch.tv/' + stream;
 
         const livestreamer = spawn('livestreamer', [stream_url, 'best']);
         livestreamer.on('close', (code) => {
-            closer();
+            getStreamsForGame(gamename);
         });
         livestreamer.on('error', (code) => {
             const mpv = spawn('mpv', ['--fs', 'http://www.twitch.tv/' + stream]);
             mpv.on('close', (code) => {
-                closer();
+                getStreamsForGame(gamename);
             });
         });
 
