@@ -1,4 +1,4 @@
-var exec        = require('child_process').exec;
+var spawn       = require('child_process').spawn;
 var colors      = require("colors");
 var request     = require("request");
 var rl          = require("readline");
@@ -110,7 +110,8 @@ function showMainMenu() {
 
 function openStreams(streams) {
     cb = function(stream) {
-        exec('mpv --fs http://www.twitch.tv/' + stream, function(err, out, code) {
+        const mpv = spawn('mpv', ['--fs', 'http://www.twitch.tv/' + stream]);
+        mpv.on('close', (code) => {
             handleInput("Open stream number?", streams, cb);
         });
     };
